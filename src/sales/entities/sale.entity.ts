@@ -13,11 +13,15 @@ export class Sale {
   @PrimaryGeneratedColumn({ name: 'id_venta' })
   idVenta: number;
 
-  @ManyToOne(() => Product, (product) => product.sales)
+  @ManyToOne(() => Product, (product) => product.sales, {
+    eager: true,
+  })
   @JoinColumn({ name: 'id_producto', referencedColumnName: 'idProducto' })
   Producto: Product;
 
-  @ManyToOne(() => Usuario, (login) => login.sales)
+  @ManyToOne(() => Usuario, (login) => login.sales, {
+    eager: true,
+  })
   @JoinColumn({ name: 'id_usuario', referencedColumnName: 'idUsuario' })
   Usuario: Usuario;
 

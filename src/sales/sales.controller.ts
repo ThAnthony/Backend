@@ -3,40 +3,53 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { SalesService } from './sales.service';
-import { CreateSaleDto } from './dto/create-sale.dto';
-import { UpdateSaleDto } from './dto/update-sale.dto';
+import { Sale } from './entities/sale.entity';
 
 @Controller('sales')
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
   @Post()
-  create(@Body() createSaleDto: CreateSaleDto) {
-    return this.salesService.create(createSaleDto);
+  async create(
+    @Body()
+    newSale: Sale,
+  ) {
+    return await this.salesService.createSale(newSale);
   }
 
   @Get()
-  findAll() {
-    return this.salesService.findAll();
+  async findAll() {
+    return await this.salesService.findSales();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.salesService.findOne(+id);
+  @Get(':idSale')
+  async findOne(
+    @Param('idSale')
+    id: string,
+  ) {
+    return await this.salesService.findOneSale(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSaleDto: UpdateSaleDto) {
-    return this.salesService.update(+id, updateSaleDto);
+  @Put(':idSale')
+  async update(
+    @Param('idSale')
+    id: string,
+    @Body()
+    updateSale: Sale,
+  ) {
+    return await this.salesService.updateSale(id, updateSale);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.salesService.remove(+id);
+  @Delete(':idSale')
+  async remove(
+    @Param('idSale')
+    id: string,
+  ) {
+    return await this.salesService.deleteSale(id);
   }
 }

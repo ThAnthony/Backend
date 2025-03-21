@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { Usuario } from './entities/Usuario.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class LoginService {
@@ -9,6 +9,22 @@ export class LoginService {
     @InjectRepository(Usuario)
     private readonly usuarioRepository: Repository<Usuario>,
   ) {}
+
+  async login(
+    username: string,
+    password: string,
+  ): Promise<{ user?: Usuario; isLogin: boolean }> {
+    const user = await this.usuarioRepository.findOne({
+      where: { username: username },
+    });
+    if (!user) {
+      return { user: undefined, isLogin: false };
+    }
+    if (user.password !== password) {
+      return { user, isLogin: false };
+    }
+    return { user, isLogin: true };
+  }
 
   async createUser(newUsuario: Usuario): Promise<Usuario> {
     return await this.usuarioRepository.save(newUsuario);

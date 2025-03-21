@@ -14,6 +14,23 @@ import { Usuario } from './entities/Usuario.entity';
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
+  @Post('login')
+  async login(
+    @Body()
+    loginDto: {
+      username: string;
+      password: string;
+    },
+  ): Promise<{ user?: Usuario; isLogin: boolean }> {
+    const rpta = await this.loginService.login(
+      loginDto.username,
+      loginDto.password,
+    );
+    console.log('Controller:(user)', rpta.user);
+    console.log('Controller(message)', rpta.isLogin);
+    return rpta;
+  }
+
   @Post()
   async create(
     @Body()

@@ -18,13 +18,13 @@ export class ProductsController {
   async create(
     @Body()
     newProduct: Product,
-  ) {
+  ): Promise<Product> {
     return await this.productsService.CreateProduct(newProduct);
   }
 
   @Get()
-  findAll() {
-    return this.productsService.findProducts();
+  async findAll(): Promise<Product[]> {
+    return await this.productsService.findProducts();
   }
 
   @Get(':idProduct')

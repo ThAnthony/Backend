@@ -25,7 +25,11 @@ export class ProductsService {
   }
 
   async findProducts(): Promise<Product[]> {
-    return await this.productRepository.find();
+    return await this.productRepository.find({
+      order: {
+        idProducto: 'ASC',
+      },
+    });
   }
 
   async findOneProduct(id: string): Promise<Product> {

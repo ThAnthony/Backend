@@ -24,6 +24,9 @@ export class Product {
   @Column({ name: 'precio_final' })
   precioFinal: number;
 
+  @Column()
+  imgurl: number;
+
   @OneToMany(() => Sale, (sale) => sale.Producto)
   sales: Sale[];
 }

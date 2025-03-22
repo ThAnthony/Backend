@@ -55,8 +55,8 @@ export class ProductsService {
     await this.productRepository.update(id, Productfinal);
     return this.findOneProduct(id);
   }
-  async deleteProduct(id: string) {
+  async deleteProduct(id: string): Promise<boolean> {
     await this.productRepository.delete(id);
-    return 'product deleted';
+    return true;
   }
 }

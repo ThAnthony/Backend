@@ -41,7 +41,7 @@ export class ProductsController {
     id: string,
     @Body()
     updateProduct: Product,
-  ) {
+  ): Promise<Product> {
     return await this.productsService.updateProduct(id, updateProduct);
   }
 
@@ -49,7 +49,8 @@ export class ProductsController {
   async remove(
     @Param('idProduct')
     id: string,
-  ) {
+  ): Promise<boolean> {
+    console.log(id);
     return await this.productsService.deleteProduct(id);
   }
 }

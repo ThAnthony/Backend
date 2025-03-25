@@ -18,23 +18,16 @@ export class SalesService {
     return await this.saleRepository.find();
   }
 
-  async findOneSale(id: string): Promise<Sale> {
-    const Sale = await this.saleRepository.findOne({ where: { idVenta: +id } });
-    if (!Sale) {
-      throw new Error(`Sale with id ${id} not found`);
+  async findSalesUser(idUser: string): Promise<Sale[]> {
+    const sales = await this.saleRepository
+      .createQueryBuilder('sale')
+      .leftJoinAndSelect('sale.Usuario', 'usuario') // Relación con Usuario
+      .leftJoinAndSelect('sale.Producto', 'producto') // Relación con Producto
+      .where('usuario.idUsuario = :idUser', { idUser })
+      .getMany();
+    if (sales.length === 0) {
+      throw new Error(`Sales not found`);
     }
-    return Sale;
-  }
-
-  async updateSale(id: string, updateSale: Sale): Promise<Sale> {
-    await this.findOneSale(id);
-
-    await this.saleRepository.update(id, updateSale);
-    return await this.findOneSale(id);
-  }
-
-  async deleteSale(id: string) {
-    await this.saleRepository.delete(id);
-    return 'Sale deleted';
+    return sales;
   }
 }

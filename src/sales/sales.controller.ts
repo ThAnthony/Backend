@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Put,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { SalesService } from './sales.service';
 import { Sale } from './entities/sale.entity';
 
@@ -27,29 +19,11 @@ export class SalesController {
     return await this.salesService.findSales();
   }
 
-  @Get(':idSale')
+  @Get(':idUsuario')
   async findOne(
-    @Param('idSale')
+    @Param('idUsuario')
     id: string,
   ) {
-    return await this.salesService.findOneSale(id);
-  }
-
-  @Put(':idSale')
-  async update(
-    @Param('idSale')
-    id: string,
-    @Body()
-    updateSale: Sale,
-  ) {
-    return await this.salesService.updateSale(id, updateSale);
-  }
-
-  @Delete(':idSale')
-  async remove(
-    @Param('idSale')
-    id: string,
-  ) {
-    return await this.salesService.deleteSale(id);
+    return await this.salesService.findSalesUser(id);
   }
 }

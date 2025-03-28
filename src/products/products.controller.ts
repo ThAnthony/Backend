@@ -50,7 +50,6 @@ export class ProductsController {
     @Param('idProduct')
     id: string,
   ): Promise<boolean> {
-    console.log(id);
     return await this.productsService.deleteProduct(id);
   }
 }

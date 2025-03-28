@@ -10,20 +10,23 @@ export class SalesService {
     private readonly saleRepository: Repository<Sale>,
   ) {}
 
-  async createSale(newVenta: Sale): Promise<Sale> {
+  async createSale(newVenta: Sale[]): Promise<Sale[]> {
     return await this.saleRepository.save(newVenta);
   }
 
   async findSales(): Promise<Sale[]> {
-    return await this.saleRepository.find();
+    return await this.saleRepository.find({
+      order: { idVenta: 'DESC' },
+    });
   }
 
   async findSalesUser(idUser: string): Promise<Sale[]> {
     const sales = await this.saleRepository
       .createQueryBuilder('sale')
-      .leftJoinAndSelect('sale.Usuario', 'usuario') // Relación con Usuario
-      .leftJoinAndSelect('sale.Producto', 'producto') // Relación con Producto
+      .leftJoinAndSelect('sale.Usuario', 'usuario')
+      .leftJoinAndSelect('sale.Producto', 'producto')
       .where('usuario.idUsuario = :idUser', { idUser })
+      .orderBy('sale.idVenta', 'DESC')
       .getMany();
     if (sales.length === 0) {
       throw new Error(`Sales not found`);

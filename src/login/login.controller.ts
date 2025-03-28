@@ -26,8 +26,6 @@ export class LoginController {
       loginDto.username,
       loginDto.password,
     );
-    // console.log('Controller:(user)', rpta.user);
-    // console.log('Controller(message)', rpta.isLogin);
     return rpta;
   }
 

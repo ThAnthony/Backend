@@ -9,7 +9,7 @@ export class SalesController {
   @Post()
   async create(
     @Body()
-    newSale: Sale,
+    newSale: Sale[],
   ) {
     return await this.salesService.createSale(newSale);
   }
